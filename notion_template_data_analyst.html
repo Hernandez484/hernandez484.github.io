@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plantilla Notion — Data Analyst Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F6F3;
+    --surface: #FFFFFF;
+    --surface2: #F1F0EC;
+    --border: #E3E2DC;
+    --text: #1A1A1A;
+    --text2: #6B6A65;
+    --text3: #9B9A97;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --teal-mid: #1D9E75;
+    --purple: #3C3489;
+    --purple-light: #EEEDFE;
+    --purple-mid: #7F77DD;
+    --amber: #854F0B;
+    --amber-light: #FAEEDA;
+    --green: #3B6D11;
+    --green-light: #EAF3DE;
+    --gray: #444441;
+    --gray-light: #F1EFE8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Print styles */
+  @media print {
+    body { background: white; font-size: 12px; }
+    .no-print { display: none; }
+    .page-break { page-break-before: always; }
+    .section { break-inside: avoid; }
+  }
+
+  /* Top bar */
+  .topbar {
+    background: var(--purple);
+    color: #EEEDFE;
+    padding: 14px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    letter-spacing: -0.3px;
+  }
+  .topbar-sub {
+    font-size: 12px;
+    color: #AFA9EC;
+    font-weight: 300;
+  }
+  .print-btn {
+    background: #EEEDFE;
+    color: var(--purple);
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .print-btn:hover { background: white; }
+
+  /* Layout */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Sidebar nav */
+  .layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 70px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .sidebar-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text2);
+    cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 2px;
+  }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active { background: var(--purple-light); color: var(--purple); font-weight: 500; }
+  .nav-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Main content */
+  .main { min-width: 0; }
+
+  /* Page header */
+  .page-header {
+    margin-bottom: 32px;
+  }
+  .page-emoji { font-size: 40px; margin-bottom: 8px; display: block; }
+  .page-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .page-subtitle {
+    font-size: 14px;
+    color: var(--text2);
+    font-weight: 300;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--border);
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text);
+    text-transform: uppercase;
+  }
+
+  .section-badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* Property rows (Notion style) */
+  .prop-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .prop-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .prop-row:last-child { border-bottom: none; }
+
+  .prop-key {
+    width: 160px;
+    flex-shrink: 0;
+    font-size: 13px;
+    color: var(--text2);
+    font-weight: 500;
+    padding-top: 1px;
+  }
+
+  .prop-val {
+    font-size: 13px;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.5;
+  }
+
+  .prop-val.placeholder {
+    color: var(--text3);
+    font-style: italic;
+  }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-right: 4px;
+    margin-bottom: 2px;
+  }
+  .tag-teal { background: var(--teal-light); color: var(--teal); }
+  .tag-purple { background: var(--purple-light); color: var(--purple); }
+  .tag-amber { background: var(--amber-light); color: var(--amber); }
+  .tag-green { background: var(--green-light); color: var(--green); }
+  .tag-gray { background: var(--gray-light); color: var(--gray); }
+
+  /* Status pill */
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .status-todo { background: var(--gray-light); color: var(--gray); }
+  .status-todo::before { background: var(--gray); }
+  .status-progress { background: var(--amber-light); color: var(--amber); }
+  .status-progress::before { background: var(--amber); }
+  .status-done { background: var(--green-light); color: var(--green); }
+  .status-done::before { background: var(--green); }
+
+  /* Phase divider */
+  .phase-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 16px;
+  }
+  .phase-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .phase-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* Project card */
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .project-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .project-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .project-card-body {
+    padding: 12px 16px;
+  }
+
+  .project-field {
+    display: flex;
+    gap: 0;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    align-items: flex-start;
+  }
+  .project-field:last-child { border-bottom: none; }
+  .project-field-key {
+    width: 150px;
+    flex-shrink: 0;
+    color: var(--text2);
+    font-weight: 500;
+  }
+  .project-field-val { flex: 1; color: var(--text); }
+  .project-field-val.ph { color: var(--text3); font-style: italic; }
+
+  /* Callout */
+  .callout {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .callout-icon { font-size: 18px; flex-shrink: 0; }
+  .callout-teal { background: var(--teal-light); color: var(--teal); border-left: 3px solid var(--teal-mid); }
+  .callout-purple { background: var(--purple-light); color: var(--purple); border-left: 3px solid var(--purple-mid); }
+  .callout-amber { background: var(--amber-light); color: var(--amber); border-left: 3px solid #EF9F27; }
+
+  /* Tools grid */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .tool-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .tool-desc {
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+  .tool-phase {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+  }
+
+  /* Progress tracker */
+  .tracker-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .tracker-row:last-child { border-bottom: none; }
+  .tracker-month {
+    width: 100px;
+    flex-shrink: 0;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .tracker-bar-wrap {
+    flex: 1;
+    height: 8px;
+    background: var(--surface2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .tracker-bar {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--teal-mid);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .tracker-pct {
+    width: 36px;
+    text-align: right;
+    font-size: 12px;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* Instruction boxes */
+  .instruction {
+    background: #FFFDF5;
+    border: 1px dashed #EF9F27;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--amber);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .instruction strong { font-weight: 600; }
+
+  /* Divider */
+  hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+  .mono { font-family: 'DM Mono', monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="topbar no-print">
+  <div>
+    <div class="topbar-title">Plantilla Notion — Data Analyst Portfolio</div>
+    <div class="topbar-sub">María Andrea Hernández Arias · Guía de configuración paso a paso</div>
+  </div>
+  <button class="print-btn" onclick="window.print()">Imprimir / Guardar PDF</button>
+</div>
+
+<div class="container">
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar no-print">
+      <div class="sidebar-label">Páginas Notion</div>
+      <a class="nav-item active" href="#portafolio">
+        <span class="nav-dot" style="background:var(--purple)"></span> Portafolio principal
+      </a>
+      <a class="nav-item" href="#about">
+        <span class="nav-dot" style="background:var(--teal)"></span> About me
+      </a>
+      <a class="nav-item" href="#proyectos">
+        <span class="nav-dot" style="background:var(--teal)"></span> Proyectos
+      </a>
+      <a class="nav-item" href="#tracker">
+        <span class="nav-dot" style="background:var(--teal)"></span> Tracker de progreso
+      </a>
+      <a class="nav-item" href="#herramientas">
+        <span class="nav-dot" style="background:var(--teal)"></span> Herramientas
+      </a>
+      <a class="nav-item" href="#contacto">
+        <span class="nav-dot" style="background:var(--teal)"></span> Contacto
+      </a>
+      <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--border);">
+        <div class="sidebar-label">Leyenda</div>
+        <div style="font-size:11px; color:var(--text2); line-height:1.8;">
+          <span class="status status-todo">Sin iniciar</span><br>
+          <span class="status status-progress">En progreso</span><br>
+          <span class="status status-done">Completado</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+      <!-- PAGE 1: PORTAFOLIO PRINCIPAL -->
+      <div id="portafolio" class="section">
+        <div class="page-header">
+          <span class="page-emoji">📊</span>
+          <div class="page-title">Data Analyst Portfolio<br>María Andrea Hernández Arias</div>
+          <div class="page-subtitle">Analista de datos en formación · Medellín, Colombia · Disponible para roles remotos</div>
+        </div>
+
+        <div class="callout callout-amber">
+          <span class="callout-icon">📌</span>
+          <div><strong>Instrucción:</strong> Esta es tu página de inicio en Notion. Crea una página nueva, copia este título y agrega las subpáginas que aparecen más abajo. El emoji va en el ícono de la página.</div>
+        </div>
+
+        <div class="section-header">
+          <div class="section-title">Estructura de subpáginas</div>
+        </div>
+
+        <div class="prop-block">
+          <div class="prop-row">
+            <div class="prop-key">📖 About me</div>
+            <div class="prop-val">Quién soy, mi historia y mi objetivo profesional</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">⚡ What I do</div>
+            <div class="prop-val">Habilidades técnicas y enfoque de trabajo</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">🗂️ Proyectos</div>
+            <div class="prop-val">Base de datos con todos los proyectos del programa</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">📈 Tracker</div>
+            <div class="prop-val">Seguimiento de progreso por mes y sprint</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">🛠️ Herramientas</div>
+            <div class="prop-val">Stack tecnológico con nivel de dominio</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">📬 Contacto</div>
+            <div class="prop-val">LinkedIn, GitHub, correo</div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- PAGE 2: ABOUT ME -->
+      <div id="about" class="section page-break">
+        <div class="page-header">
+          <span class="page-emoji">📖</span>
+          <div class="page-title">About me</div>
+          <div class="page-subtitle">Subpágina del portafolio principal</div>
+        </div>
+
+        <div class="callout callout-amber">
+          <span class="callout-icon">✏️</span>
+          <div><strong>Instrucción:</strong> Rellena cada campo con tu información real. Escribe en primera persona, en español. Cuando tengas el portafolio listo para buscar trabajo, traduce esta página al inglés.</div>
+        </div>
+
+        <div class="section-header">
+          <div class="section-title">Quién soy</div>
+        </div>
+
+        <div class="prop-block">
+          <div class="prop-row">
+            <div class="prop-key">Nombre completo</div>
+            <div class="prop-val">María Andrea Hernández Arias</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">Ubicación</div>
+            <div class="prop-val">Medellín, Colombia · Disponible para trabajo remoto</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">Formación actual</div>
+            <div class="prop-val placeholder">Escribe aquí tu carrera universitaria y universidad</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">Objetivo profesional</div>
+            <div class="prop-val placeholder">Ej: "Busco mi primer rol como Data Analyst Junior en un equipo remoto, donde pueda aplicar mis habilidades en SQL, Python y Power BI para transformar datos en decisiones de negocio."</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">Mi historia</div>
+            <div class="prop-val placeholder">2–3 oraciones sobre por qué te interesa el análisis de datos. No tiene que ser técnico — cuenta qué problema querías resolver o qué te llamó la atención.</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">Idiomas</div>
+            <div class="prop-val">
+              <span class="tag tag-teal">Español — nativo</span>
+              <span class="tag tag-gray">Inglés — escrito intermedio</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-top:24px">
+          <div class="section-title">Habilidades técnicas</div>
+        </div>
+
+        <div class="prop-block">
+          <div class="prop-row">
+            <div class="prop-key">Avanzado</div>
+            <div class="prop-val">
+              <span class="tag tag-teal">Excel / Google Sheets</span>
+              <span class="tag tag-teal">Power BI</span>
+              <span class="tag tag-teal">Tablas dinámicas</span>
+            </div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">Intermedio</div>
+            <div class="prop-val">
+              <span class="tag tag-purple">SQL (MySQL)</span>
+              <span class="tag tag-purple">Power Query</span>
+            </div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">En aprendizaje</div>
+            <div class="prop-val">
+              <span class="tag tag-amber">Python (Pandas)</span>
+              <span class="tag tag-amber">Jupyter Notebook</span>
+              <span class="tag tag-amber">Matplotlib</span>
+            </div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">Próximamente</div>
+            <div class="prop-val">
+              <span class="tag tag-gray">Seaborn</span>
+              <span class="tag tag-gray">SciPy</span>
+              <span class="tag tag-gray">Tableau</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-teal" style="margin-top:16px">
+          <span class="callout-icon">💡</span>
+          <div><strong>Tip:</strong> Actualiza los niveles de habilidad a medida que avanzas en el programa. Mueve las etiquetas de "En aprendizaje" a "Intermedio" cuando termines cada proyecto.</div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- PAGE 3: PROYECTOS -->
+      <div id="proyectos" class="section page-break">
+        <div class="page-header">
+          <span class="page-emoji">🗂️</span>
+          <div class="page-title">Proyectos</div>
+          <div class="page-subtitle">Base de datos del programa de formación · 6 proyectos en total</div>
+        </div>
+
+        <div class="callout callout-amber">
+          <span class="callout-icon">📌</span>
+          <div><strong>Instrucción en Notion:</strong> Crea esta página como una <strong>Database (table)</strong>. Las columnas serán: Nombre, Fase, Mes, Estado, Herramientas, Dataset, Pregunta de negocio, GitHub, Publicado. Agrega una entrada por cada proyecto. A continuación está la estructura de cada uno.</div>
+        </div>
+
+        <!-- FASE 1 -->
+        <div class="phase-divider">
+          <div class="phase-label" style="background:var(--teal-light); color:var(--teal)">Fase 1 — Fundamentos (Meses 1–3)</div>
+          <div class="phase-line"></div>
+        </div>
+
+        <!-- Proyecto 1 -->
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="project-card-title">P1 · Análisis financiero con SQL</div>
+            <div class="project-card-meta">
+              <span class="tag tag-teal">Mes 1</span>
+              <span class="status status-todo">Sin iniciar</span>
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-field">
+              <div class="project-field-key">Tipo</div>
+              <div class="project-field-val">Análisis SQL</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Herramientas</div>
+              <div class="project-field-val"><span class="tag tag-teal">MySQL</span></div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Dataset sugerido</div>
+              <div class="project-field-val">Northwind Database (gratuito en GitHub) o dataset de ventas de Kaggle</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Pregunta de negocio</div>
+              <div class="project-field-val">¿Cuáles son los productos con mayor margen de ganancia y cómo varía el ROI por categoría?</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Entregable</div>
+              <div class="project-field-val">Script SQL documentado + resumen ejecutivo en Notion (1 página)</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Técnicas cubiertas</div>
+              <div class="project-field-val">JOINs, CTEs, GROUP BY avanzado, Window functions, cálculo de KPIs</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">GitHub</div>
+              <div class="project-field-val ph">Agrega el link cuando lo publiques</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 2 -->
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="project-card-title">P2 · EDA en Python — mismo dataset SQL</div>
+            <div class="project-card-meta">
+              <span class="tag tag-teal">Mes 2</span>
+              <span class="status status-todo">Sin iniciar</span>
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-field">
+              <div class="project-field-key">Tipo</div>
+              <div class="project-field-val">Análisis exploratorio (EDA)</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Herramientas</div>
+              <div class="project-field-val"><span class="tag tag-purple">Python</span><span class="tag tag-purple">Pandas</span><span class="tag tag-purple">Matplotlib</span><span class="tag tag-purple">Seaborn</span></div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Dataset</div>
+              <div class="project-field-val">El mismo del P1 — mismo caso de negocio, diferente herramienta</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Pregunta de negocio</div>
+              <div class="project-field-val">¿Qué patrones y anomalías existen en los datos de ventas? ¿Hay outliers relevantes?</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Entregable</div>
+              <div class="project-field-val">Jupyter Notebook documentado con celdas de texto explicativo entre el código</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Técnicas cubiertas</div>
+              <div class="project-field-val">Limpieza con Pandas, histogramas, boxplots, gráficos de barras y líneas</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">GitHub</div>
+              <div class="project-field-val ph">Agrega el link cuando lo publiques</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 3 -->
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="project-card-title">P3 · Dashboard interactivo en Power BI</div>
+            <div class="project-card-meta">
+              <span class="tag tag-teal">Mes 3</span>
+              <span class="status status-todo">Sin iniciar</span>
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-field">
+              <div class="project-field-key">Tipo</div>
+              <div class="project-field-val">Dashboard BI</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Herramientas</div>
+              <div class="project-field-val"><span class="tag tag-teal">Power BI Desktop</span></div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Dataset sugerido</div>
+              <div class="project-field-val">Dataset de ventas minoristas (Kaggle) o inventario con geolocalización</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Pregunta de negocio</div>
+              <div class="project-field-val">¿Cómo están distribuidas las ventas por región, producto y período? ¿Qué recomiendas al negocio?</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Entregable</div>
+              <div class="project-field-val">Dashboard publicado en Power BI Service + captura de pantalla en Notion</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Técnicas cubiertas</div>
+              <div class="project-field-val">Modelo de datos, DAX básico, filtros dinámicos, storytelling visual, KPIs</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">GitHub</div>
+              <div class="project-field-val ph">Sube el archivo .pbix al repo</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FASE 2 -->
+        <div class="phase-divider">
+          <div class="phase-label" style="background:var(--purple-light); color:var(--purple)">Fase 2 — Avanzado (Meses 4–6)</div>
+          <div class="phase-line"></div>
+        </div>
+
+        <!-- Proyecto 4 -->
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="project-card-title">P4 · Análisis estadístico de comportamiento</div>
+            <div class="project-card-meta">
+              <span class="tag tag-purple">Mes 4</span>
+              <span class="status status-todo">Sin iniciar</span>
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-field">
+              <div class="project-field-key">Tipo</div>
+              <div class="project-field-val">Análisis estadístico</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Herramientas</div>
+              <div class="project-field-val"><span class="tag tag-purple">Python</span><span class="tag tag-purple">Pandas</span><span class="tag tag-purple">Seaborn</span></div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Dataset sugerido</div>
+              <div class="project-field-val">Dataset de marketing / clientes (Kaggle Customer Personality)</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Pregunta de negocio</div>
+              <div class="project-field-val">¿Qué características tienen los clientes de mayor valor? ¿Hay patrones estadísticos en su comportamiento?</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Entregable</div>
+              <div class="project-field-val">Jupyter Notebook documentado como reporte ejecutivo para audiencia no técnica</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">GitHub</div>
+              <div class="project-field-val ph">Agrega el link cuando lo publiques</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 5 -->
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="project-card-title">P5 · Caso end-to-end (SQL + Python + viz)</div>
+            <div class="project-card-meta">
+              <span class="tag tag-purple">Mes 5</span>
+              <span class="status status-todo">Sin iniciar</span>
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-field">
+              <div class="project-field-key">Tipo</div>
+              <div class="project-field-val">Proyecto integrador — estrella del portafolio</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Herramientas</div>
+              <div class="project-field-val"><span class="tag tag-purple">MySQL</span><span class="tag tag-purple">Python</span><span class="tag tag-purple">SciPy</span><span class="tag tag-purple">Seaborn</span></div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Dataset</div>
+              <div class="project-field-val ph">Elige un dataset de negocio real con múltiples tablas (ventas, clientes, campañas)</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Pregunta de negocio</div>
+              <div class="project-field-val ph">Define una pregunta que requiera extraer con SQL, analizar con Python y visualizar resultados</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Entregable</div>
+              <div class="project-field-val">Script SQL + Notebook Python + dashboard o informe final con recomendaciones</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">GitHub</div>
+              <div class="project-field-val ph">Repo bien estructurado con README detallado (en inglés)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 6 -->
+        <div class="project-card">
+          <div class="project-card-header">
+            <div class="project-card-title">P6 · Dashboard en Tableau Public</div>
+            <div class="project-card-meta">
+              <span class="tag tag-purple">Mes 6</span>
+              <span class="status status-todo">Sin iniciar</span>
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-field">
+              <div class="project-field-key">Tipo</div>
+              <div class="project-field-val">Dashboard BI alternativo</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Herramientas</div>
+              <div class="project-field-val"><span class="tag tag-gray">Tableau Public</span></div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Dataset</div>
+              <div class="project-field-val ph">Dataset de ventas globales, datos demográficos o datos públicos de tu interés</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">Entregable</div>
+              <div class="project-field-val">Dashboard publicado en Tableau Public + link en Notion y LinkedIn</div>
+            </div>
+            <div class="project-field">
+              <div class="project-field-key">GitHub</div>
+              <div class="project-field-val ph">Link al dashboard público de Tableau</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- PAGE 4: TRACKER -->
+      <div id="tracker" class="section page-break">
+        <div class="page-header">
+          <span class="page-emoji">📈</span>
+          <div class="page-title">Tracker de progreso</div>
+          <div class="page-subtitle">Actualiza el % de avance cada semana</div>
+        </div>
+
+        <div class="callout callout-amber">
+          <span class="callout-icon">📌</span>
+          <div><strong>Instrucción:</strong> En Notion, crea esta página con un bloque de <strong>Progress bar</strong> por mes, o simplemente anota el porcentaje en un campo de texto. Aquí abajo tienes la estructura sugerida.</div>
+        </div>
+
+        <div class="prop-block">
+          <div class="tracker-row">
+            <div class="tracker-month" style="color:var(--teal); font-weight:600">Mes 1 — SQL</div>
+            <div class="tracker-bar-wrap"><div class="tracker-bar" id="b1"></div></div>
+            <div class="tracker-pct" id="p1">0%</div>
+          </div>
+          <div class="tracker-row">
+            <div class="tracker-month" style="color:var(--teal); font-weight:600">Mes 2 — Python</div>
+            <div class="tracker-bar-wrap"><div class="tracker-bar" id="b2"></div></div>
+            <div class="tracker-pct" id="p2">0%</div>
+          </div>
+          <div class="tracker-row">
+            <div class="tracker-month" style="color:var(--teal); font-weight:600">Mes 3 — Power BI</div>
+            <div class="tracker-bar-wrap"><div class="tracker-bar" id="b3"></div></div>
+            <div class="tracker-pct" id="p3">0%</div>
+          </div>
+          <div class="tracker-row">
+            <div class="tracker-month" style="color:var(--purple); font-weight:600">Mes 4 — Estadística</div>
+            <div class="tracker-bar-wrap"><div class="tracker-bar" style="background:var(--purple-mid)" id="b4"></div></div>
+            <div class="tracker-pct" id="p4">0%</div>
+          </div>
+          <div class="tracker-row">
+            <div class="tracker-month" style="color:var(--purple); font-weight:600">Mes 5 — Estrella</div>
+            <div class="tracker-bar-wrap"><div class="tracker-bar" style="background:var(--purple-mid)" id="b5"></div></div>
+            <div class="tracker-pct" id="p5">0%</div>
+          </div>
+          <div class="tracker-row">
+            <div class="tracker-month" style="color:var(--purple); font-weight:600">Mes 6 — Portfolio</div>
+            <div class="tracker-bar-wrap"><div class="tracker-bar" style="background:var(--purple-mid)" id="b6"></div></div>
+            <div class="tracker-pct" id="p6">0%</div>
+          </div>
+        </div>
+
+        <div class="callout callout-teal" style="margin-top:16px">
+          <span class="callout-icon">✅</span>
+          <div><strong>Checklist de cada proyecto:</strong><br>
+          □ Dataset descargado y explorado<br>
+          □ Preguntas de negocio definidas<br>
+          □ Análisis completado<br>
+          □ Visualizaciones listas<br>
+          □ Documentación escrita<br>
+          □ Subido a GitHub<br>
+          □ Publicado en Notion<br>
+          □ Publicado en LinkedIn</div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- PAGE 5: HERRAMIENTAS -->
+      <div id="herramientas" class="section page-break">
+        <div class="page-header">
+          <span class="page-emoji">🛠️</span>
+          <div class="page-title">Herramientas</div>
+          <div class="page-subtitle">Stack tecnológico · Se actualiza con el avance del programa</div>
+        </div>
+
+        <div class="phase-divider">
+          <div class="phase-label" style="background:var(--teal-light); color:var(--teal)">Usar desde el inicio</div>
+          <div class="phase-line"></div>
+        </div>
+
+        <div class="tools-grid">
+          <div class="tool-card">
+            <div class="tool-name">MySQL</div>
+            <div class="tool-desc">Motor SQL para consultas, análisis y extracción de datos relacionales</div>
+            <div class="tool-phase">Mes 1 →</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">Anaconda / Jupyter</div>
+            <div class="tool-desc">Entorno Python con todas las librerías de análisis incluidas</div>
+            <div class="tool-phase">Mes 2 →</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">Power BI Desktop</div>
+            <div class="tool-desc">Dashboards interactivos y reportes de negocio</div>
+            <div class="tool-phase">Mes 3 →</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">Excel</div>
+            <div class="tool-desc">Complemento para limpieza rápida y exploración inicial</div>
+            <div class="tool-phase">Siempre</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">VS Code</div>
+            <div class="tool-desc">Editor de código alternativo a Jupyter (extensiones Python y Jupyter)</div>
+            <div class="tool-phase">Mes 2 →</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">GitHub</div>
+            <div class="tool-desc">Repositorio de proyectos y versiones del código</div>
+            <div class="tool-phase">Desde P1</div>
+          </div>
+        </div>
+
+        <div class="phase-divider" style="margin-top:20px">
+          <div class="phase-label" style="background:var(--purple-light); color:var(--purple)">Instalar en Mes 6</div>
+          <div class="phase-line"></div>
+        </div>
+
+        <div class="tools-grid">
+          <div class="tool-card">
+            <div class="tool-name">Tableau Public</div>
+            <div class="tool-desc">Visualizaciones interactivas publicables gratis — complemento de Power BI</div>
+            <div class="tool-phase">Mes 6</div>
+          </div>
+        </div>
+
+        <div class="callout callout-purple" style="margin-top:16px">
+          <span class="callout-icon">🚫</span>
+          <div><strong>No usar en este programa:</strong> SQL Server Management Studio · R · Bizagi<br>
+          Están instalados pero no son parte del plan. No abrir para no confundirse.</div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- PAGE 6: CONTACTO -->
+      <div id="contacto" class="section page-break">
+        <div class="page-header">
+          <span class="page-emoji">📬</span>
+          <div class="page-title">Contacto</div>
+          <div class="page-subtitle">Información de contacto profesional</div>
+        </div>
+
+        <div class="callout callout-amber">
+          <span class="callout-icon">✏️</span>
+          <div><strong>Instrucción:</strong> Rellena con tus datos reales. Esta página la verán reclutadores si compartes el link de tu Notion público.</div>
+        </div>
+
+        <div class="prop-block">
+          <div class="prop-row">
+            <div class="prop-key">LinkedIn</div>
+            <div class="prop-val placeholder">Pega aquí el link de tu perfil de LinkedIn</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">GitHub</div>
+            <div class="prop-val placeholder">https://github.com/Hernandez484</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">Correo profesional</div>
+            <div class="prop-val placeholder">Usa un correo que suene profesional (no apodos)</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">Disponibilidad</div>
+            <div class="prop-val">Disponible para roles remotos · Tiempo parcial o completo</div>
+          </div>
+          <div class="prop-row">
+            <div class="prop-key">Zona horaria</div>
+            <div class="prop-val">COT (UTC -5) · Medellín, Colombia</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  setTimeout(() => {
+    document.querySelectorAll('.tracker-bar').forEach((bar, i) => {
+      bar.style.width = '0%';
+    });
+  }, 100);
+</script>
+
+</body>
+</html>
